@@ -125,16 +125,13 @@ def scrape_page(driver, url, csv_file_name):
         price = float(product_elem.find_element(By.CSS_SELECTOR, ".price").text.strip("$"))
 
         try:
-            ratings_container = product_elem.find_element(By.CSS_SELECTOR, ".ratings")
-            rating_count = get_ratings_count(ratings_container)
+            ratings_and_reviews_container = product_elem.find_element(By.CSS_SELECTOR, ".ratings")
+            rating_count = get_ratings_count(ratings_and_reviews_container)
+            num_of_reviews = get_review_count(ratings_and_reviews_container)
         except NoSuchElementException:
             rating_count = 0
-
-        try:
-            reviews_container = product_elem.find_element(By.CSS_SELECTOR, ".ratings")
-            num_of_reviews = get_review_count(reviews_container)
-        except NoSuchElementException:
             num_of_reviews = 0
+
 
         product = Product(title, description, price, rating_count, num_of_reviews)
         products.append(product)
